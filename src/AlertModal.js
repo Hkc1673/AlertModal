@@ -1,8 +1,25 @@
 import React from 'react';
-import { StyleSheet, Modal, View, Text, TouchableOpacity, Image } from 'react-native';
-import PropTypes from "prop-types";
+import {
+  StyleSheet,
+  Modal,
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
+import PropTypes from 'prop-types';
 
-export default function CustomAlertComponent (props) {
+export default function CustomAlertComponent(props) {
+  const {
+    displayAlert,
+    displayAlertIcon,
+    alertTitleText,
+    alertMessageText,
+    displayPositiveButton,
+    positiveButtonText,
+    displayNegativeButton,
+    negativeButtonText,
+  } = props;
 
   const onNegativeButtonPress = () => {
     props.onPressNegativeButton();
@@ -12,62 +29,58 @@ export default function CustomAlertComponent (props) {
     props.onPressPositiveButton();
   };
 
- 
-    return (
-      <Modal
-        visible={props.displayAlert}
-        transparent={true}
-        animationType={"fade"}>
-        <View style={styles.mainOuterComponent}>
-          <View style={styles.mainContainer}>
-            {/* First ROw - Alert Icon and Title */}
-            <View style={styles.topPart}>
-              {
-                props.displayAlertIcon
-                &&
-                <Image
-                  source={require('../src/assets/ic_notification.png')}
-                  resizeMode={'contain'}
-                  style={styles.alertIconStyle}
-                />
-              }
-              <Text style={styles.alertTitleTextStyle}>
-                {`${props.alertTitleText}`}
-              </Text>
-            </View>
-            {/* Second Row - Alert Message Text */}
-            <View style={styles.middlePart}>
-              <Text style={styles.alertMessageTextStyle}>
-                {`${props.alertMessageText}`}
-              </Text>
-            </View>
-            {/* Third Row - Positive and Negative Button */}
-            <View style={styles.bottomPart}>
-              {
-                props.displayPositiveButton
-                &&
-                <TouchableOpacity
-                  onPress={onPositiveButtonPress}
-                  style={styles.alertMessageButtonStyle} >
-                  <Text style={styles.alertMessageButtonTextStyle}>{props.positiveButtonText}</Text>
-                </TouchableOpacity>
-              }
-              {
-                props.displayNegativeButton
-                &&
-                <TouchableOpacity
-                  onPress={onNegativeButtonPress}
-                  style={styles.alertMessageButtonStyle}>
-                  <Text style={styles.alertMessageButtonTextStyle}>{props.negativeButtonText}</Text>
-                </TouchableOpacity>
-              }
-            </View>
+  return (
+    <Modal
+      visible={displayAlert}
+      transparent={true}
+      animationType={'fade'}>
+      <View style={styles.mainOuterComponent}>
+        <View style={styles.mainContainer}>
+          {/* First ROw - Alert Icon and Title */}
+          <View style={styles.topPart}>
+            {displayAlertIcon && (
+              <Image
+                source={require('../src/assets/ic_notification.png')}
+                resizeMode={'contain'}
+                style={styles.alertIconStyle}
+              />
+            )}
+            <Text style={styles.alertTitleTextStyle}>
+              {`${alertTitleText}`}
+            </Text>
+          </View>
+          {/* Second Row - Alert Message Text */}
+          <View style={styles.middlePart}>
+            <Text style={styles.alertMessageTextStyle}>
+              {`${alertMessageText}`}
+            </Text>
+          </View>
+          {/* Third Row - Positive and Negative Button */}
+          <View style={styles.bottomPart}>
+            {displayPositiveButton && (
+              <TouchableOpacity
+                onPress={onPositiveButtonPress}
+                style={styles.alertMessageButtonStyle}>
+                <Text style={styles.alertMessageButtonTextStyle}>
+                  {positiveButtonText}
+                </Text>
+              </TouchableOpacity>
+            )}
+            {displayNegativeButton && (
+              <TouchableOpacity
+                onPress={onNegativeButtonPress}
+                style={styles.alertMessageButtonStyle}>
+                <Text style={styles.alertMessageButtonTextStyle}>
+                  {negativeButtonText}
+                </Text>
+              </TouchableOpacity>
+            )}
           </View>
         </View>
-      </Modal>
-    );
-  }
-
+      </View>
+    </Modal>
+  );
+}
 
 CustomAlertComponent.propTypes = {
   displayAlert: PropTypes.bool,
@@ -78,9 +91,20 @@ CustomAlertComponent.propTypes = {
   positiveButtonText: PropTypes.string,
   displayNegativeButton: PropTypes.bool,
   negativeButtonText: PropTypes.string,
-  onPressPositiveButton : PropTypes.func,
-  onPressNegativeButton : PropTypes.func,
-}
+  onPressPositiveButton: PropTypes.func,
+  onPressNegativeButton: PropTypes.func,
+};
+
+CustomAlertComponent.defaultProps = {
+  displayAlert: false,
+  displayAlertIcon: true,
+  alertTitleText: 'Alert',
+  alertMessageText: 'Alert Message Text',
+  displayPositiveButton: true,
+  positiveButtonText: 'OK',
+  displayNegativeButton: true,
+  negativeButtonText: 'CANCEL',
+};
 
 // export default CustomAlertComponent;
 
@@ -89,7 +113,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#00000088'
+    backgroundColor: '#00000088',
   },
   mainContainer: {
     flexDirection: 'column',
@@ -111,7 +135,7 @@ const styles = StyleSheet.create({
     // borderWidth: 1,
     // borderColor: '#00FF00',
     paddingHorizontal: 2,
-    paddingVertical: 4
+    paddingVertical: 4,
   },
   middlePart: {
     flex: 1,
@@ -121,7 +145,7 @@ const styles = StyleSheet.create({
     padding: 4,
     color: '#FFFFFF',
     fontSize: 16,
-    marginVertical: 2
+    marginVertical: 2,
   },
   bottomPart: {
     flex: 0.5,
@@ -130,7 +154,7 @@ const styles = StyleSheet.create({
     // borderColor: '#0066FF',
     flexDirection: 'row',
     padding: 4,
-    justifyContent: 'space-evenly'
+    justifyContent: 'space-evenly',
   },
   alertIconStyle: {
     // borderWidth: 1,
@@ -141,13 +165,13 @@ const styles = StyleSheet.create({
   alertTitleTextStyle: {
     flex: 1,
     textAlign: 'justify',
-    color: "#FFFFFF",
+    color: '#FFFFFF',
     fontSize: 18,
     fontWeight: 'bold',
     // borderWidth: 1,
     // borderColor: '#660066',
     padding: 2,
-    marginHorizontal: 2
+    marginHorizontal: 2,
   },
   alertMessageTextStyle: {
     color: '#FFFFFF',
@@ -168,7 +192,6 @@ const styles = StyleSheet.create({
   alertMessageButtonTextStyle: {
     fontSize: 14,
     fontWeight: 'bold',
-    color: '#FFFFFF'
+    color: '#FFFFFF',
   },
-
 });
